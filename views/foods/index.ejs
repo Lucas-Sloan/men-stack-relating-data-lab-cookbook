@@ -13,7 +13,7 @@
   <ul>
     <% foods.forEach((food) => { %>
       <a href="/users/<%= user._id %>/foods/<%= food._id %>">
-        <li><%= food.recipe %></li>
+        <li><%= food.title %></li>
       </a>
     <% }) %>
   </ul>
