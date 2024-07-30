@@ -8,6 +8,15 @@ const morgan = require('morgan');
 const session = require('express-session');
 
 const authController = require('./controllers/auth.js');
+app.use(passUserToView)
+app.use('/auth', authController);
+app.use(isSignedIn);
+app.use('/users/:userId/foods',foodsController);
+const foodsController = require('./controllers/foods.js');
+
+
+app.use('/auth', authController);
+app.use('/users/:userId/foods',foodsController);
 
 const port = process.env.PORT ? process.env.PORT : '3000';
 
