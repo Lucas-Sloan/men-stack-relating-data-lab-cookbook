@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
       // Render index.ejs, passing in all of the current user's 
       // foods as data in the context object. 
       res.render('foods/index.ejs', {
-        foods: currentUser.foods,
+        foods: currentUser.pantry,
       });
     } catch (error) {
       // If any errors, log them and redirect back home
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
       const currentUser = await User.findById(req.session.user._id);
       // Push req.body (the new form data object) to the
       // foods array of the current user
-      currentUser.foods.push(req.body);
+      currentUser.pantry.push(req.body);
       // Save changes to the user
       await currentUser.save();
       // Redirect back to the foods index view
@@ -47,7 +47,7 @@ router.get('/', async (req, res) => {
       // Look up the user from req.session
       const currentUser = await User.findById(req.session.user._id);
       // Find the food by the foodId supplied from req.params
-      const food = currentUser.foods.id(req.params.foodId);
+      const food = currentUser.pantry.id(req.params.foodId);
       // Render the show view, passing the food data in the context object
       res.render('foods/show.ejs', {
         food: food,
@@ -66,7 +66,7 @@ router.get('/', async (req, res) => {
       const currentUser = await User.findById(req.session.user._id);
       // Use the Mongoose .deleteOne() method to delete 
       // a food using the id supplied from req.params
-      currentUser.foods.id(req.params.foodId).deleteOne();
+      currentUser.pantry.id(req.params.foodId).deleteOne();
       // Save changes to the user
       await currentUser.save();
       // Redirect back to the foods index view
@@ -81,7 +81,7 @@ router.get('/', async (req, res) => {
   router.get('/:foodId/edit', async (req, res) => {
     try {
       const currentUser = await User.findById(req.session.user._id);
-      const food = currentUser.foods.id(req.params.foodId);
+      const food = currentUser.pantry.id(req.params.foodId);
       res.render('foods/edit.ejs', {
         food: food,
       });
@@ -96,7 +96,7 @@ router.get('/', async (req, res) => {
       // Find the user from req.session
       const currentUser = await User.findById(req.session.user._id);
       // Find the current food from the id supplied by req.params
-      const food = currentUser.foods.id(req.params.foodId);
+      const food = currentUser.pantry.id(req.params.foodId);
       // Use the Mongoose .set() method
       // this method updates the current food to reflect the new form
       // data on `req.body`
